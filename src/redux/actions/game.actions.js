@@ -1,4 +1,4 @@
-import { MODE_SELECTED } from "../types";
+import { MODE_SELECTED, SELECT_LEVEL } from "../types";
 
 export const modeSelected = (data) => {
   return {
@@ -6,3 +6,10 @@ export const modeSelected = (data) => {
     payload: data,
   };
 };
+
+export const onSelectLevel = (data) => {
+  return{
+    type: SELECT_LEVEL,
+    payload: data
+  }
+}

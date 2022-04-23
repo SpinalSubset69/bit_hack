@@ -1,6 +1,11 @@
 export const easyLevels = [
   {
-    name: "Easy Level 1",
+    name: "Debug Level",
+    numberBits: 14,
+    operation: 'sum',
+    fixedBytes: '01010101010100',
+    playerOptions: '00000000000000',
+    expectedResult: '22'
   },
   {
     name: "Easy Level 2",
