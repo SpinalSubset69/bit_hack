@@ -1,33 +1,67 @@
-import React, { useEffect, useState } from 'react';
-import useLevelSelector from './../hooks/useLevelSelector';
-import LevelRowComponent from './levelRow';
+import React, { useEffect, useState } from 'react'
+import {
+  andOperation,
+  orOperation,
+  xorOperation,
+} from '../../../helpers/binaryOperations'
+import { normalizeBinaryString } from '../../../helpers/normalizeBytesString'
+import useLevelSelector from './../hooks/useLevelSelector'
+import BinaryBlockComponent from './binaryBlock'
 
 export default function LevelComponent() {
-    const { level } = useLevelSelector();
-    const [rows, setRows] = useState([]);
-    const [expectedResult, setExpectedResult] = useState('');
-    const [operation, setOperation] = useState("");
-    const [loading, setLoading] = useState(false);
-    useEffect(() => {
-        init();
-    }, []);
+  const { level } = useLevelSelector()
+  const [rows, setRows] = useState([])
 
-    //Initialize components
-    const init = () => {
-        //BUILD BYTES CARDS
-        if (typeof level != 'undefined') {
-            setRows([[...level.fixedBytes].map(x => x), [...level.playerOptions].map(x => x)]);
-            setOperation(level.operation);
-            setExpectedResult(level.expectedResult);
-            console.log(rows);
-            console.log(operation);
-            console.log(expectedResult);
-        }
-    }
+  useEffect(() => {
+    init()
+  }, [])
 
-    return (
-        <div>
-            <h1>HOLAS</h1>
+  //Initialize states
+  const init = () => {
+    setRows([                              
+      [...normalizeBinaryString(level.firstRow.toString('2'))].map((x) => x),
+      [...normalizeBinaryString(level.secondRow.toString('2'))].map((x) => x),
+      [...normalizeBinaryString(level.thirdRow.toString('2'))].map((x) => x),
+    ])
+  }
+
+  //Set all the levels requirements
+  const buildLevel = () => rows.map((_, key) => blocksRow(_, key, key === 2))
+
+  const blocksRow = (data, key, isFixed) => (
+    <BinaryBlockComponent
+      key={key}
+      rows={rows}
+      rowKey={key}
+      data={data}
+      isFixed={isFixed}
+      setRows={setRows}      
+    />
+  )
+
+  const setNewRows = (data) => {
+    const oldRows = rows
+    oldRows[2] = [...normalizeBinaryString(data.toString('2'))].map((x) => x)
+    setRows([...oldRows])
+  }
+
+  const or = () => setNewRows(orOperation(rows))
+
+  const and = () => setNewRows(andOperation(rows))
+
+  const xor = () => setNewRows(xorOperation(rows))
+
+  return (
+    <div className="level-wrapper">
+      <div className="level">
+        <span className="level-title">{level.name}</span>
+        {buildLevel()}
+        <div className="button-container">
+          <button onClick={or}>|</button>
+          <button onClick={and}>&</button>
+          <button onClick={xor}>^</button>
         </div>
-    )
+      </div>
+    </div>
+  )
 }

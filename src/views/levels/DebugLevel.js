@@ -1,37 +1,52 @@
-import React from "react";
-import AddressBlock from "./components/AddressBlock";
-import AddressBlockState from "./components/AddressBlockState";
-import { nanoid } from "nanoid";
+import React from 'react'
+import AddressBlock from './components/AddressBlock'
+import AddressBlockState from './components/AddressBlockState'
+import { nanoid } from 'nanoid'
 
-import "./levels.css";
+import './levels.css'
 
 /**
  * This component represents the debug level. This level is for game testing
  * purposes.
- * 
+ *
  * @returns {JSX} DebugLevel component.
  */
 export function DebugLevel() {
   // "in" AddressBlock's starting AddressBlockState
-  const addrBlockIn = new AddressBlockState(
-    nanoid(),
-    "in",
-    [1, 0, 1, 0, 1, 0, 1, 0]
-  );
+  const addrBlockIn = new AddressBlockState(nanoid(), 'in', [
+    1,
+    0,
+    1,
+    0,
+    1,
+    0,
+    1,
+    0,
+  ])
 
   // "x" AddressBlocks's starting AddressBlockState
-  const addrBlockX = new AddressBlockState(
-    nanoid(),
-    "x",
-    [0, 0, 1, 1, 0, 0, 1, 1]
-  );
+  const addrBlockX = new AddressBlockState(nanoid(), 'x', [
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+  ])
 
   // "out" AddressBlock's starting AddressBlockState
-  const addrBlockOut = new AddressBlockState(
-    nanoid(),
-    "out",
-    [0, 0, 0, 0, 0, 0, 0, 0]
-  );
+  const addrBlockOut = new AddressBlockState(nanoid(), 'out', [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+  ])
 
   /**
    * This function flips the bit of a bitCell component, that is: if the
@@ -42,33 +57,33 @@ export function DebugLevel() {
   const flipBit = (id) => {
     setAddressBlocks((oldAddressBlocks) =>
       oldAddressBlocks.map((addressBlock) => {
-        var idFound = false;
-        let i = 0;
+        var idFound = false
+        let i = 0
 
         // find the bitCell id corresponding to its position in the array (0-7)
         // of its respective addressBlock
         for (i = 0; i < 8; i++) {
-          if (addressBlock.id + "-" + i === id) {
-            idFound = true;
-            break;
+          if (addressBlock.id + '-' + i === id) {
+            idFound = true
+            break
           }
         }
 
         // if the id has ben found, flip the bit of the corresponding position
         // (0-7) of the binary array "bits" of its respective addressBlock
         if (idFound) {
-          var newBits = addressBlock.bits;
-          newBits[i] += 1 - 2 * newBits[i];
+          var newBits = addressBlock.bits
+          newBits[i] += 1 - 2 * newBits[i]
 
           // return the changed addressBlock
-          return { ...addressBlock, bits: newBits };
+          return { ...addressBlock, bits: newBits }
         }
 
         // return the unchanged addressBlock
-        return addressBlock;
-      })
-    );
-  };
+        return addressBlock
+      }),
+    )
+  }
 
   /**
    * This function performs the OR operation on the "in" and "x" addressBlocks
@@ -81,13 +96,13 @@ export function DebugLevel() {
     setAddressBlocks((oldAddressBlocks) => {
       for (let i = 0; i < 8; i++)
         oldAddressBlocks[2].bits[i] =
-          oldAddressBlocks[0].bits[i] | oldAddressBlocks[1].bits[i];
+          oldAddressBlocks[0].bits[i] | oldAddressBlocks[1].bits[i]
 
       return oldAddressBlocks.map((addressBlock) => {
-        return addressBlock;
-      });
-    });
-  };
+        return addressBlock
+      })
+    })
+  }
 
   /**
    * This function performs the AND operation on the "in" and "x" addressBlocks
@@ -100,8 +115,8 @@ export function DebugLevel() {
     setAddressBlocks((oldAddressBlocks) => {
       for (let i = 0; i < 8; i++)
         oldAddressBlocks[2].bits[i] =
-          oldAddressBlocks[0].bits[i] & oldAddressBlocks[1].bits[i];
-      
+          oldAddressBlocks[0].bits[i] & oldAddressBlocks[1].bits[i]
+
       return oldAddressBlocks.map((addressBlock) => {
         return addressBlock
       })
@@ -119,8 +134,8 @@ export function DebugLevel() {
     setAddressBlocks((oldAddressBlocks) => {
       for (let i = 0; i < 8; i++)
         oldAddressBlocks[2].bits[i] =
-          oldAddressBlocks[0].bits[i] ^ oldAddressBlocks[1].bits[i];
-      
+          oldAddressBlocks[0].bits[i] ^ oldAddressBlocks[1].bits[i]
+
       return oldAddressBlocks.map((addressBlock) => {
         return addressBlock
       })
@@ -132,12 +147,12 @@ export function DebugLevel() {
    * addressBlocks is an array of AddressBlockState objects.
    */
   const [addressBlocks, setAddressBlocks] = React.useState(() => {
-    const newAddressBlocks = [];
-    newAddressBlocks.push(addrBlockIn);
-    newAddressBlocks.push(addrBlockX);
-    newAddressBlocks.push(addrBlockOut);
-    return newAddressBlocks;
-  });
+    const newAddressBlocks = []
+    newAddressBlocks.push(addrBlockIn)
+    newAddressBlocks.push(addrBlockX)
+    newAddressBlocks.push(addrBlockOut)
+    return newAddressBlocks
+  })
 
   /**
    * A map of addressBlock components in relation to the array of addressBlock
@@ -145,23 +160,29 @@ export function DebugLevel() {
    */
   const addressBlockComponents = addressBlocks.map((addressBlock) => (
     <AddressBlock
-      key={addressBlock.id}           // key property
-      id={addressBlock.id}            // id property
-      label={addressBlock.label}      // label property: name of the address
-      bits={addressBlock.bits}        // bits property: array of 1's and 0's
+      key={addressBlock.id} // key property
+      id={addressBlock.id} // id property
+      label={addressBlock.label} // label property: name of the address
+      bits={addressBlock.bits} // bits property: array of 1's and 0's
       value={addressBlock.getValue()} // getValue() function property
       flipBit={flipBit}
     />
-  ));
+  ))
 
   return (
-    <div className="level">
-      {addressBlockComponents}
-      <button onClick={orButton}>|</button>
-      <button onClick={andButton}>&</button>
-      <button onClick={xorButton}>^</button>
+    <div className="level-wrapper">
+      <div className="level">
+        <span className="level-title">Debug Level</span>
+        <div className="blocks-container">{addressBlockComponents}</div>
+
+        <div className="button-container">
+          <button onClick={orButton}>|</button>
+          <button onClick={andButton}>&</button>
+          <button onClick={xorButton}>^</button>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
 
-export default DebugLevel;
+export default DebugLevel

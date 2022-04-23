@@ -12,8 +12,39 @@ button:active {
     box-shadow: inset 5px 5px 10px -3px rgba(0, 0, 0, 0.7)
 }
 
+.level-wrapper{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .level {
     width: 800px;
+    background: #fff;
+    padding: 25px;
+    margin: 0 auto;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.level-title{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.button-container{
+    display: flex;
+    gap: 10px;
+}
+
+.blocks-container{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
 }
 
 .address-block{
@@ -42,4 +73,5 @@ button:active {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
