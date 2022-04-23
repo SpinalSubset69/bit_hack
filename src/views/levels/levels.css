@@ -1,0 +1,45 @@
+button {
+    border: 0;
+    height: 50px;
+    width: 50px;
+    background-color: cadetblue;
+    border-radius: 10px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: larger;
+}
+
+button:active {
+    box-shadow: inset 5px 5px 10px -3px rgba(0, 0, 0, 0.7)
+}
+
+.level {
+    width: 800px;
+}
+
+.address-block{
+    display: grid;
+    grid-template: auto / repeat(10, 0.5fr);
+}
+
+.address-block div {
+    box-shadow:  0px 2px 2px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.address-block label {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: larger;
+}
+
+.bit-cell {
+    height: 50px;
+    width: 50px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

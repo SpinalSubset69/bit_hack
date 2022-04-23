@@ -11,10 +11,10 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers());
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode> Lo removí por mientras porque me estaba llamando las funciones dos veces :v
     <Provider store={store}>
       <App />
-    </Provider>
-  </React.StrictMode>,
+    </Provider>,
+  // </React.StrictMode>,
   document.getElementById("root")
 );

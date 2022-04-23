@@ -1,10 +1,9 @@
-import React from "react";
-
-const BitCell = () => {
-  const [bit, setBit] = React.useState(0);
-  const [pos] = React.useState(0);
-
-  return <label onClick={() => setBit(bit + 1 - 2 * bit)}>{bit}</label>;
-};
+export function BitCell(props) {
+  return (
+    <div className="bit-cell" onClick={() => props.flipBit(props.id)}>
+      <label>{props.bit}</label>
+    </div>
+  );
+}
 
 export default BitCell;
