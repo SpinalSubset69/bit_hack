@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { getDecimalValueFromBinary } from '../../../helpers/normalizeBytesString'
+import { getDecimalValueFromBinary, normalizeBinaryString } from '../../../helpers/normalizeBytesString'
 
 export default function BinaryBlockComponent({
   data,
   isFixed,
-  setRows,
-  rows,
-  rowKey,
+  setRows, //DESDE EL PADRE
+  rows, //DESDE EL PADRE
+  rowKey, //DESDE EL PADRE
 }) {
   const [result, setResult] = useState(getDecimalValueFromBinary(data.join('')))
   const [binary, setBinary] = useState(data)
@@ -33,7 +33,7 @@ export default function BinaryBlockComponent({
 
   return (
     <div className="address-block">
-      {binary.map((x, key) => (
+      {data.map((x, key) => (
         <div
           onClick={() => (isFixed ? null : flipValue(key))}
           key={key}
