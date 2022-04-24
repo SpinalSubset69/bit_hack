@@ -1,50 +1,55 @@
-import React, { useEffect, useState } from 'react'
-import { getDecimalValueFromBinary, normalizeBinaryString } from '../../../helpers/normalizeBytesString'
+import React, { useEffect, useState } from "react";
 
 export default function BinaryBlockComponent({
   data,
+  rowIndex,
   isFixed,
-  setRows, //DESDE EL PADRE
-  rows, //DESDE EL PADRE
-  rowKey, //DESDE EL PADRE
+  parentValues,
+  setParentValues,
 }) {
-  const [result, setResult] = useState(getDecimalValueFromBinary(data.join('')))
-  const [binary, setBinary] = useState(data)
+
+  const [value, setValue] = useState(data);
 
   useEffect(() => {
-    setBinary(data)
-    setResult(getDecimalValueFromBinary(data.join('')))
-  }, [data])
+    setValue(data);
+  }, [data]);
+
+  const decimalToBinaryArray = (data) => [...data.toString(2).padStart(8, "0")];
 
   const flipValue = (index) => {
-    //If the row is not fixed allow changes on the state
-    if (!isFixed) {
-      const newBinary = binary
-      newBinary[index] = newBinary[index] === '1' ? '0' : '1'
-      setBinary([...newBinary])
-      setResult(getDecimalValueFromBinary(binary.join('')))
-    }
+    if (isFixed) return;
 
-    //SET PARENT ROWS TO PERFORM OPERATIONS
-    const parentRows = rows
-    rows[rowKey] = binary
-    setRows(parentRows)
+    let newValue = value;
+    let newParentValues = parentValues;
+
+    newValue ^= 1 << (7 - index); // MAGIA NEGRA!
+    newParentValues[rowIndex] = newValue;
+    setValue(newValue);
+    setParentValues(newParentValues);
+  };
+
+  function BitCellComponents() {
+    return (
+      <>
+        {Array(8).fill(0).map((_, key) => (
+            <div
+              key={key}
+              className="bit-cell"
+              onClick={() => (isFixed ? null : flipValue(key))}
+            >
+              {decimalToBinaryArray(value)[key]}
+            </div>
+          ))}
+      </>
+    );
   }
 
   return (
     <div className="address-block">
-      {data.map((x, key) => (
-        <div
-          onClick={() => (isFixed ? null : flipValue(key))}
-          key={key}
-          className="bit-cell"
-        >
-          {x}
-        </div>
-      ))}
+      <BitCellComponents />
       <div>
-        <span>{result}</span>
+        <span>{value}</span>
       </div>
     </div>
-  )
+  );
 }
