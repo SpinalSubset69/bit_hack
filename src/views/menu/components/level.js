@@ -1,55 +1,49 @@
-import React, { useEffect, useState } from 'react'
-import {
+import React, { useEffect, useState } from "react";
+import { // Pueda que ya no sea necesario este import
   andOperation,
   orOperation,
   xorOperation,
-} from '../../../helpers/binaryOperations'
-import { normalizeBinaryString } from '../../../helpers/normalizeBytesString'
-import useLevelSelector from './../hooks/useLevelSelector'
-import BinaryBlockComponent from './binaryBlock'
+} from "../../../helpers/binaryOperations";
+import { normalizeBinaryString } from "../../../helpers/normalizeBytesString";
+import useLevelSelector from "./../hooks/useLevelSelector";
+import BinaryBlockComponent from "./binaryBlock";
 
 export default function LevelComponent() {
-  const { level } = useLevelSelector()
-  const [rows, setRows] = useState([])
+  const { level } = useLevelSelector();
+  const [values, setValues] = useState([]);
 
   useEffect(() => {
-    init()
-  }, [])
+    init();
+  }, []);
 
-  //Initialize states
+  // Initialize states
   const init = () => {
-    setRows([                              
-      [...normalizeBinaryString(level.firstRow.toString('2'))].map((x) => x),
-      [...normalizeBinaryString(level.secondRow.toString('2'))].map((x) => x),
-      [...normalizeBinaryString(level.thirdRow.toString('2'))].map((x) => x),
-    ])
-  }
+    setValues([level.firstRow, level.secondRow, level.thirdRow]);
+  };
 
-  //Set all the levels requirements
-  const buildLevel = () => rows.map((_, key) => blocksRow(_, key, key === 2))
+  // Set all the levels requirements
+  const buildLevel = () => values.map((_, key) => blocksRow(_, key, key === 2));
 
   const blocksRow = (data, key, isFixed) => (
     <BinaryBlockComponent
-      key={key}
-      rows={rows}
-      rowKey={key}
       data={data}
+      key={key}
+      rowIndex={key}
       isFixed={isFixed}
-      setRows={setRows}      
+      parentValues={values}
+      setParentValues={setValues}
     />
-  )
+  );
 
-  const setNewRows = (data) => {
-    const oldRows = rows
-    oldRows[2] = [...normalizeBinaryString(data.toString('2'))].map((x) => x)
-    setRows([...oldRows])
-  }
+  const setNewValue = (newValue, index) => {
+    const oldValues = values;
+    oldValues[index] = newValue;
+    setValues([...oldValues]);
+  };
 
-  const or = () => setNewRows(orOperation(rows))
-
-  const and = () => setNewRows(andOperation(rows))
-
-  const xor = () => setNewRows(xorOperation(rows))
+  const or  = () => setNewValue(values[0] | values[1], 2);
+  const and = () => setNewValue(values[0] & values[1], 2);
+  const xor = () => setNewValue(values[0] ^ values[1], 2);
 
   return (
     <div className="level-wrapper">
@@ -63,5 +57,5 @@ export default function LevelComponent() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,4 +1,4 @@
 export const normalizeBinaryString = (dataToNormalize) =>
-  dataToNormalize.padStart(8, '0')
+  dataToNormalize.padStart(8, "0");
 
-export const getDecimalValueFromBinary = (data) => parseInt(data, 2)
+export const getDecimalValueFromBinary = (data) => parseInt(data, 2);
