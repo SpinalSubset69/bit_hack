@@ -2,7 +2,7 @@ export const easyLevels = [
   {
     name: 'Easy Level One',
     numberBits: 14,
-    operation: 'sum',
+    operation: '|',
     secondRow: 70,
     firstRow: 50,
     thirdRow: 0,

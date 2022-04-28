@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { SlideToRight } from '../../../helpers/cssClassHelper'
 import { onSelectLevel } from '../../../redux/actions/game.actions'
 
 export default function LevelRowComponent({ data }) {
@@ -39,8 +40,11 @@ export default function LevelRowComponent({ data }) {
         ? data.map((x, index) => {
             return (
               <div
+                onMouseEnter={() => SlideToRight(index, 'enter')}
+                onMouseLeave={() => SlideToRight(index, 'leave')}
                 onClick={() => selectLevel(x)}
                 key={index}
+                id={index}
                 className="row-wrapper"
               >
                 <h1>{x.name}</h1>
