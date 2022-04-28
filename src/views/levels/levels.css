@@ -41,6 +41,7 @@ button:active {
 }
 
 .button-container{
+    min-width: 170px;
     display: flex;
     gap: 10px;
 }
@@ -53,7 +54,7 @@ button:active {
 
 .address-block{
     display: grid;
-    grid-template: auto / repeat(10, 0.5fr);    
+    grid-template: auto / repeat(10, 0.5fr);
 }
 
 .address-block div {    

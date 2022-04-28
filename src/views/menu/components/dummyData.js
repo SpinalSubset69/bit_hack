@@ -2,7 +2,8 @@ export const easyLevels = [
   {
     name: 'Easy Level One',
     numberBits: 14,
-    operation: '|',
+    operation: '|&^<<>>~',
+    toggleableRows: [0, 1],
     secondRow: 70,
     firstRow: 50,
     thirdRow: 0,
@@ -11,7 +12,8 @@ export const easyLevels = [
   {
     name: 'Easy Level One',
     numberBits: 14,
-    operation: 'sum',
+    operation: '|',
+    toggleableRows: [0],
     secondRow: 70,
     firstRow: 50,
     thirdRow: 0,

@@ -14,6 +14,7 @@ export default function LevelRowComponent({ data }) {
       name,
       numberBits,
       operation,
+      toggleableRows,
       expectedResult,
       secondRow,
       firstRow,
@@ -24,6 +25,7 @@ export default function LevelRowComponent({ data }) {
       onSelectLevel({
         numberBits,
         operation,
+        toggleableRows,
         expectedResult,
         secondRow,
         firstRow,
