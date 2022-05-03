@@ -106,3 +106,35 @@ button:active {
 
 /* box-shadow: 0px 5px 5px 0px rgba(255, 36, 58, 1);     */
 /* box-shadow: 0px 5px 5px 0px rgba(89, 255, 134, 1);     */
+
+
+@media (max-width: 600px) {
+    .bit-cell{
+        width: 30px;
+        height: 30px;
+    }
+
+    .value-cell{
+        width: 30px;
+        height: 30px;
+    }
+
+    .button-container button{
+        width: 30px;
+        height: 30px;
+    }
+
+    .level-title{
+        font-size: 18px;
+    }
+
+    .level span{
+        font-size: 18px;
+    }
+
+    .level{
+        width: 95%;
+        padding: 10px;
+    }
+  }
+  

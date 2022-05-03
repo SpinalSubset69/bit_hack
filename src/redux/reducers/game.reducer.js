@@ -1,10 +1,17 @@
-import { MODE_SELECTED, SELECT_LEVEL, SET_PLAYER_SCORE } from '../types'
+import {
+  MODE_SELECTED,
+  RESET_LEVEL,
+  SELECT_LEVEL,
+  SET_MUSIC,
+  SET_PLAYER_SCORE,
+} from '../types'
 
 const INITIAL_STATE = {
   mode: '',
   level: {},
   player: '',
   score: '',
+  music: 'menu',
 }
 
 export const gameReducer = (state = INITIAL_STATE, action) => {
@@ -17,6 +24,12 @@ export const gameReducer = (state = INITIAL_STATE, action) => {
 
     case SET_PLAYER_SCORE:
       return { ...state, score: action.payload }
+
+    case SET_MUSIC:
+      return { ...state, music: action.payload }
+
+    case RESET_LEVEL:
+      return { ...INITIAL_STATE, mode: 'easy' }
 
     default:
       return { ...state }

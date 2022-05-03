@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { SlideToRight } from '../../../helpers/cssClassHelper'
@@ -10,6 +10,7 @@ export default function LevelRowComponent({ data }) {
 
   const selectLevel = (data) => {
     //HERE WE GONNA BUILD THE LEVEL
+
     const {
       name,
       numberBits,
@@ -19,8 +20,9 @@ export default function LevelRowComponent({ data }) {
       secondRow,
       firstRow,
       thirdRow,
+      steps,
     } = data
-
+    
     dispatch(
       onSelectLevel({
         numberBits,
@@ -31,6 +33,7 @@ export default function LevelRowComponent({ data }) {
         firstRow,
         name,
         thirdRow,
+        steps,
       }),
     )
     navigate('/level')
