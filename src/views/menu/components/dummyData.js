@@ -7,6 +7,7 @@ export const easyLevels = [
     firstRow: 50,
     thirdRow: 0,
     expectedResult: 150,
+    steps: 100,
   },
   {
     name: 'Easy Level One',

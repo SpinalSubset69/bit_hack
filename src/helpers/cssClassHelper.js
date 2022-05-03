@@ -7,11 +7,17 @@ export const SwithcHeadShakeX = (uniqueId) => {
 }
 
 export const SwitchPulse = (uniqueId) => {
-  const binaryBlock = document.getElementById(uniqueId)
-  binaryBlock.classList.remove('animate__flip')
-  setTimeout(() => {
-    binaryBlock.classList.add('animate__flip')
-  }, 100)
+  return new Promise((resolve, reject) => {
+    const binaryBlock = document.getElementById(uniqueId)
+    console.log(uniqueId)
+    binaryBlock.classList.remove('animate__flipInX')
+    binaryBlock.classList.add('animate__flipOutX')
+    setTimeout(() => {
+      binaryBlock.classList.add('animate__flipInX')
+      binaryBlock.classList.remove('animate__flipOutX')
+      resolve()
+    }, 500)
+  })
 }
 
 export const SwitchBounce = (uniqueId) => {
@@ -27,6 +33,14 @@ export const SwitchTada = (uniqueId) => {
   binaryBlock.classList.remove('animate__tada')
   setTimeout(() => {
     binaryBlock.classList.add('animate__tada')
+  }, 100)
+}
+
+export const SwitchRotateOut = (uniqueId) => {
+  const binaryBlock = document.getElementById(uniqueId)
+  binaryBlock.classList.remove('animate__rotateOutDownLeft')
+  setTimeout(() => {
+    binaryBlock.classList.add('animate__rotateOutDownLeft')
   }, 100)
 }
 

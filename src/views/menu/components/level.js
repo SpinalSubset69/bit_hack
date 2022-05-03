@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { SwitchTada } from '../../../helpers/cssClassHelper'
+import { SwitchRotateOut, SwitchTada } from '../../../helpers/cssClassHelper'
 import { setPlayerScoreAction } from '../../../redux/actions/game.actions'
 import useLevelSelector from './../hooks/useLevelSelector'
 import BackArrowComponent from './backArrow'
 import BinaryBlockComponent from './binaryBlock'
+import levelMusic from './../../../assets/music/level.mp3'
+import winMusic from './../../../assets/music/win.mp3'
+import looseMusic from './../../../assets/music/lose.mp3'
 
 export default function LevelComponent() {
   const { level, score } = useLevelSelector()
   const dispatch = useDispatch()
   const [values, setValues] = useState([])
   const navigate = useNavigate()
+  const [userSteps, setUserSteps] = useState(0)
+  const [looseGame, setLooseGame] = useState(0)
+  const audio = new Audio(levelMusic)
 
   useEffect(() => {
+    audio.play()
+    audio.addEventListener('ended', audio.play())
     if (Object.keys(level).length === 0) navigate(-1)
     init()
+
+    return () => audio.pause()
   }, [])
 
   //UPDATE PLAYER SCORE STATE
@@ -24,8 +34,25 @@ export default function LevelComponent() {
   }, [values[2]])
 
   useEffect(() => {
+    if (level.steps) {
+      if (userSteps > level.steps) {
+        setLooseGame(true)
+        audio.pause()
+        const loosAudio = new Audio(looseMusic)
+        loosAudio.play()
+        SwitchRotateOut('level-wrapper')
+      }
+    }
+  }, [userSteps])
+
+  useEffect(() => {
     //COMPARAR EL expected result con el score
-    if (level.expectedResult === score) SwitchTada('level-wrapper')
+    if (level.expectedResult === score && userSteps < level.steps) {
+      audio.pause()
+      const winAudio = new Audio(winMusic)
+      winAudio.play()
+      SwitchTada('level-wrapper')
+    }
   }, [score])
 
   // Initialize states
@@ -55,11 +82,18 @@ export default function LevelComponent() {
       isFixed={isFixed}
       parentValues={values}
       setParentValues={setValues}
+      setSteps={setUserSteps}
+      steps={userSteps}
     />
   )
 
   return (
     <div className="level-wrapper animate__animated animate__fadeInDownBig">
+      {looseGame ? (
+        <div>
+          <h1>HAS PERDIDO, ¿Qué pasó bruh? ¿Desayunaste?</h1>
+        </div>
+      ) : null}
       <div id="level-wrapper" className="level animate__animated">
         <div className="flex justify-between">
           <div className="flex pl-10 items-center relative">

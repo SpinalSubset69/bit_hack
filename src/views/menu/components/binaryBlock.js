@@ -12,6 +12,8 @@ export default function BinaryBlockComponent({
   parentValues,
   setParentValues,
   index,
+  setSteps,
+  steps,
 }) {
   const [value, setValue] = useState(data)
   const [valueId, setValueId] = useState(index + 69)
@@ -31,15 +33,15 @@ export default function BinaryBlockComponent({
       SwithcHeadShakeX(uniqueId)
       return
     }
-    SwitchPulse(uniqueId)
-    setTimeout(() => {
+    SwitchPulse(uniqueId).then(() => {
       let newValue = value
       let newParentValues = parentValues
       newValue ^= 1 << (7 - index) // MAGIA NEGRA!
       newParentValues[rowIndex] = newValue
       setValue(newValue)
       setParentValues(newParentValues)
-    }, 400)
+      setSteps(steps + 1)
+    })
   }
 
   function BitCellComponents() {

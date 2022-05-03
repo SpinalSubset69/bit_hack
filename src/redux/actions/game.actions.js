@@ -1,4 +1,10 @@
-import { MODE_SELECTED, SELECT_LEVEL, SET_PLAYER_SCORE } from '../types'
+import {
+  MODE_SELECTED,
+  RESET_LEVEL,
+  SELECT_LEVEL,
+  SET_MUSIC,
+  SET_PLAYER_SCORE,
+} from '../types'
 
 export const modeSelected = (data) => {
   return {
@@ -18,5 +24,18 @@ export const setPlayerScoreAction = (data) => {
   return {
     type: SET_PLAYER_SCORE,
     payload: data,
+  }
+}
+
+export const setCurrentMusic = (data) => {
+  return {
+    type: SET_MUSIC,
+    payload: data,
+  }
+}
+
+export const resetLevel = () => {
+  return {
+    type: RESET_LEVEL,
   }
 }
