@@ -7,8 +7,7 @@ import {
 
 export default function BinaryBlockComponent({
   data,
-  level,
-  index,
+  level,  
   rowIndex,
   isFixed,
   isToggleable,
@@ -100,7 +99,7 @@ export default function BinaryBlockComponent({
     <div className="address-block">
       <BitCellComponents />
       <div id={valueId} className="value-cell animate__animated">
-        <span>{value}</span>
+        {value}
       </div>
       <div className="button-container">
         {isToggleable ? (
