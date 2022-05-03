@@ -7,8 +7,11 @@ import {
 
 export default function BinaryBlockComponent({
   data,
+  level,  
   rowIndex,
   isFixed,
+  isToggleable,
+  setNewParentValue,
   parentValues,
   setParentValues,
   index,
@@ -29,10 +32,11 @@ export default function BinaryBlockComponent({
   const decimalToBinaryArray = (data) => [...data.toString(2).padStart(8, '0')]
 
   const flipValue = (index, uniqueId) => {
-    if (isFixed) {
+    if (isFixed || !isToggleable) {
       SwithcHeadShakeX(uniqueId)
       return
     }
+
     SwitchPulse(uniqueId).then(() => {
       let newValue = value
       let newParentValues = parentValues
@@ -44,7 +48,28 @@ export default function BinaryBlockComponent({
     })
   }
 
-  function BitCellComponents() {
+  const leftShift = () => {
+    let newValue = (value << 1) & 255
+    setValue(newValue)
+    setNewParentValue(newValue, rowIndex)
+  }
+
+  const rightShift = () => {
+    let newValue = value >> 1
+    setValue(newValue)
+    setNewParentValue(newValue, rowIndex)
+  }
+
+  const not = () => {
+    let newValue = value
+
+    for (let i = 0; i < 8; i++) newValue ^= 1 << i
+
+    setValue(newValue)
+    setNewParentValue(newValue, rowIndex)
+  }
+
+  const BitCellComponents = () => {
     return (
       <>
         {Array(8)
@@ -74,8 +99,24 @@ export default function BinaryBlockComponent({
     <div className="address-block">
       <BitCellComponents />
       <div id={valueId} className="value-cell animate__animated">
-        <span>{value}</span>
+        {value}
+      </div>
+      <div className="button-container">
+        {isToggleable ? (
+          <>
+            {level.operation.toString().includes('<<') ? (
+              <button onClick={leftShift}>&#60;&#60;</button>
+            ) : null}
+            {level.operation.toString().includes('>>') ? (
+              <button onClick={rightShift}>&#62;&#62;</button>
+            ) : null}
+            {level.operation.toString().includes('~') ? (
+              <button onClick={not}>~</button>
+            ) : null}
+          </>
+        ) : null}
       </div>
     </div>
   )
 }
+

@@ -47,13 +47,14 @@ export default function LevelComponent() {
 
   useEffect(() => {
     //COMPARAR EL expected result con el score
-    if (level.expectedResult === score && userSteps < level.steps) {
+  if (level.expectedResult === score) {
       audio.pause()
-      const winAudio = new Audio(winMusic)
-      winAudio.play()
+      const windAudio = new Audio(winMusic)
+      windAudio.play()
       SwitchTada('level-wrapper')
     }
   }, [score])
+
 
   // Initialize states
   const init = () => {
@@ -61,7 +62,7 @@ export default function LevelComponent() {
   }
 
   // Set all the levels requirements
-  const buildLevel = () => values.map((_, key) => blocksRow(_, key, key === 2))
+  const buildLevel = () => values.map((_, key) => blocksRow(_, key))
 
   const setNewValue = (newValue, index) => {
     const oldValues = values
@@ -73,19 +74,27 @@ export default function LevelComponent() {
   const and = () => setNewValue(values[0] & values[1], 2)
   const xor = () => setNewValue(values[0] ^ values[1], 2)
 
-  const blocksRow = (data, key, isFixed) => (
-    <BinaryBlockComponent
-      data={data}
-      key={key}
-      index={key}
-      rowIndex={key}
-      isFixed={isFixed}
-      parentValues={values}
-      setParentValues={setValues}
-      setSteps={setUserSteps}
-      steps={userSteps}
-    />
-  )
+  const blocksRow = (data, key) => {
+    let isFixed = key === 2
+    let isToggleable = level.toggleableRows.includes(key)
+
+    return (
+      <BinaryBlockComponent
+        data={data}
+        level={level}
+        key={key}
+        index={key}
+        rowIndex={key}
+        isFixed={isFixed}
+        parentValues={values}
+        setParentValues={setValues}
+        setSteps={setUserSteps}
+        steps={userSteps}
+        isToggleable={isToggleable}
+        setNewParentValue={setNewValue}
+      />
+    )
+  }
 
   return (
     <div className="level-wrapper animate__animated animate__fadeInDownBig">
@@ -107,13 +116,13 @@ export default function LevelComponent() {
         </div>
         {buildLevel()}
         <div className="button-container">
-          {level.operation.toString().includes('^') ? (
+          {level.operation.includes('^') ? (
             <button onClick={xor}>^</button>
           ) : null}
-          {level.operation.toString().includes('&') ? (
+          {level.operation.includes('&') ? (
             <button onClick={and}>&</button>
           ) : null}
-          {level.operation.toString().includes('|') ? (
+          {level.operation.includes('|') ? (
             <button onClick={or}>|</button>
           ) : null}
         </div>
